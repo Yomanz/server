@@ -1057,4 +1057,29 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($expectedMembers, $resultingMembers, '', 0.0, 10, true);
 	}
 
+	public function displayNameProvider() {
+		return [
+			['Graphic Novelists', ['Graphic Novelists']],
+			['', false],
+		];
+	}
+
+	/**
+	 * @dataProvider displayNameProvider
+	 */
+	public function testGetDisplayName(string $expected, $ldapResult) {
+		$gid = 'graphic_novelists';
+
+		$access = $this->getAccessMock();
+		$access->expects($this->atLeastOnce())
+			->method('readAttribute')
+			->willReturn($ldapResult);
+
+		/** @var GroupPluginManager $pluginManager */
+		$pluginManager = $this->createMock(GroupPluginManager::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
+		$this->assertSame($expected, $ldap->getDisplayName($gid));
+	}
+
 }
