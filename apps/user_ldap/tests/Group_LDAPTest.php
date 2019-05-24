@@ -1075,6 +1075,20 @@ class Group_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturn($ldapResult);
 
+		$access->connection = $this->createMock(Connection::class);
+		$access->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function($name) {
+				if($name === 'ldapGroupMemberAssocAttr') {
+					return 'member';
+				} else if($name === 'ldapGroupFilter') {
+					return 'objectclass=nextcloudGroup';
+				} else if($name === 'ldapGroupDisplayName') {
+					return 'cn';
+				}
+				return null;
+			});
+
 		/** @var GroupPluginManager $pluginManager */
 		$pluginManager = $this->createMock(GroupPluginManager::class);
 
