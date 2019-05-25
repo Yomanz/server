@@ -50,9 +50,6 @@ class SMB extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('domain', $l->t('Domain')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
-				(new DefinitionParameter('show_hidden', $l->t('Show hidden files')))
-					->setType(DefinitionParameter::VALUE_BOOLEAN)
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->addAuthScheme(AuthMechanism::SCHEME_SMB)
